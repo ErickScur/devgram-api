@@ -15,6 +15,14 @@ export class UsersController {
         try {
             const { email, password, name } = registerValidator.parse(request.body)
 
+            const emailInUse = await this.usersRepository.loadByEmail(email)
+            if (emailInUse) {
+                response.status(409).json({
+                    message: 'Email already in use'
+                })
+                return
+            }
+
             const hashedPassword = await hashPassword(password)
 
             const createdUser = await this.usersRepository.create({

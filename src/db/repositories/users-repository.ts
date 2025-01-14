@@ -18,4 +18,12 @@ export class UsersRepository {
     async create(data: CreateUserDTO): Promise<User> {
         return await this.repository.save(data)
     }
+
+    async loadByEmail(email: string): Promise<User | null> {
+        return await this.repository.findOne({
+            where: {
+                email,
+            }
+        })
+    }
 }

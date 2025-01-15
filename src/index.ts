@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { userRouter } from './http/routes/user-routes'
+import { authRouter } from './http/routes/auth-routes'
 import { appDataSource } from './db/config/data-source'
 
 dotenv.config()
@@ -9,6 +10,7 @@ const app = express()
 app.use(express.json())
 
 app.use(userRouter)
+app.use(authRouter)
 
 app.get('/', (request, response) => {
     response.json({

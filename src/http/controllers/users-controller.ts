@@ -48,4 +48,26 @@ export class UsersController {
             }
         }
     }
+
+    async getLoggedUser(request: Request, response: Response) {
+        const user = request.user
+        if (!user) {
+            response.status(401).json({ message: 'Unauthorized' })
+            return
+        }
+
+        const savedUser = await this.usersRepository.loadById(user.id)
+        if (!savedUser) {
+            response.status(401).json({ message: 'Unauthorized' })
+            return            
+        }
+
+        response.status(200).json({
+            id: savedUser.id,
+            name: savedUser.name,
+            email: savedUser.email,
+            createdAt: savedUser.createdAt,
+            profilePicture: savedUser.profilePicture,
+        })
+    }
 }

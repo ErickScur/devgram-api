@@ -1,8 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { userRouter } from './http/routes/user-routes'
-import { authRouter } from './http/routes/auth-routes'
 import { appDataSource } from './db/config/data-source'
+import { userRouter, authRouter, postRouter } from './http/routes'
+
 
 dotenv.config()
 
@@ -11,6 +11,7 @@ app.use(express.json())
 
 app.use(userRouter)
 app.use(authRouter)
+app.use(postRouter)
 
 app.get('/', (request, response) => {
     response.json({

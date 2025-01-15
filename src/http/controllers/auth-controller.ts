@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { UsersRepository } from '../../db/repositories/users-repository'
+import { UsersRepository } from '../../db/repositories/users'
 import { authenticateValidator } from '../validators/authenticate-validator'
 import { ZodError } from 'zod'
 import { verifyPassword } from '../../utils/hash-password'

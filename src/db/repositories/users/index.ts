@@ -1,12 +1,7 @@
 import { Repository } from 'typeorm';
-import { User } from '../models/user';
-import { appDataSource } from '../config/data-source';
-
-interface CreateUserDTO {
-    email: string
-    password: string
-    name: string
-}
+import { User } from '../../models/user';
+import { appDataSource } from '../../config/data-source';
+import { CreateUserDTO } from './dtos/create-user-dto';
 
 export class UsersRepository {
     private repository: Repository<User>

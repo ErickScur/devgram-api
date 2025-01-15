@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { registerValidator } from '../validators/register-validator'
 import { ZodError } from 'zod'
 import { hashPassword } from '../../utils/hash-password'
-import { UsersRepository } from '../../db/repositories/users-repository'
+import { UsersRepository } from '../../db/repositories/users'
 
 export class UsersController {
     private usersRepository: UsersRepository

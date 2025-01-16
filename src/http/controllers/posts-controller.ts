@@ -147,4 +147,78 @@ export class PostsController {
             message: 'Post was deleted'
         })
     }
+
+    async likePost(req: Request, res: Response) {
+        const id = req.params.id
+        if (!id) {
+            res.status(400).json({
+                message: 'Post id is required'
+            })
+            return
+        }
+
+        const post = await this.postsRepository.loadById(Number(id))
+        if (!post) {
+            res.status(404).json({
+                message: 'Post not found'
+            })
+            return
+        }
+
+        const userId = Number(req.user?.id)
+
+        const postLike = await this.postsRepository.loadPostLike(post.id, userId)
+        if (postLike) {
+            res.status(200).json({
+                post
+            })
+            return
+        }
+
+        await this.postsRepository.createLike(post.id, userId)
+        const updatedPost = await this.postsRepository.update(post.id, {
+            likes: post.likes + 1
+        })
+
+        res.status(200).json({
+            post: updatedPost
+        })
+    }
+
+    async unlikePost(req: Request, res: Response) {
+        const id = req.params.id
+        if (!id) {
+            res.status(400).json({
+                message: 'Post id is required'
+            })
+            return
+        }
+
+        const post = await this.postsRepository.loadById(Number(id))
+        if (!post) {
+            res.status(404).json({
+                message: 'Post not found'
+            })
+            return
+        }
+
+        const userId = Number(req.user?.id)
+
+        const postLike = await this.postsRepository.loadPostLike(post.id, userId)
+        if (!postLike) {
+            res.status(200).json({
+                post
+            })
+            return
+        }
+
+        await this.postsRepository.deleteLike(post.id, userId)
+        const updatedPost = await this.postsRepository.update(post.id, {
+            likes: post.likes - 1
+        })
+
+        res.status(200).json({
+            post: updatedPost
+        })
+    }
 }

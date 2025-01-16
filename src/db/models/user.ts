@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Post } from './post'
+import { PostLike } from './post-like'
 
 @Entity('users')
 export class User {
@@ -26,4 +27,7 @@ export class User {
 
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[]
+
+    @OneToMany(() => PostLike, (postLike) => postLike.post)
+    likes: PostLike[]
 }

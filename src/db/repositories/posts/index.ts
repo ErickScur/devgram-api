@@ -22,7 +22,8 @@ export class PostsRepository {
         return await this.repository.findOne({
             where: {
                 id
-            }
+            },
+            relations: ['comments']
         })
     }
 

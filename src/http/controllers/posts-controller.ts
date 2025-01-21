@@ -13,6 +13,8 @@ export class PostsController {
 
     async create(req: Request, res: Response) {
         try {
+            const imageUrl = req.file?.path
+
             const data = createPostValidator.parse(req.body)
 
             const authorId = req.user?.id
@@ -26,6 +28,7 @@ export class PostsController {
             const post = await this.postsRepository.create({
                 content: data.content,
                 authorId,
+                image: imageUrl,
             })
 
             res.status(201).json({

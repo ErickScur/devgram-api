@@ -1,11 +1,17 @@
 import { Router } from 'express';
 import { PostsController } from '../controllers/posts-controller';
 import { authMiddleware } from '../middlewares/auth-middleware';
+import { upload } from '../middlewares/upload';
 
 const postRouter = Router()
 const postsController = new PostsController()
 
-postRouter.post('/posts', authMiddleware, (req, res) => postsController.create(req, res))
+postRouter.post(
+    '/posts',
+    authMiddleware,
+    upload.single('image'),
+    (req, res) => postsController.create(req, res)
+)
 postRouter.get('/posts', authMiddleware, (req, res) => postsController.loadAll(req, res))
 postRouter.get('/posts/:id', authMiddleware, (req, res) => postsController.loadById(req, res))
 postRouter.patch('/posts/:id', authMiddleware, (req, res) => postsController.update(req, res))

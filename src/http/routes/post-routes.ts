@@ -14,4 +14,6 @@ postRouter.delete('/posts/:id', authMiddleware, (req, res) => postsController.de
 postRouter.post('/posts/:id/like', authMiddleware, (req, res) => postsController.likePost(req, res))
 postRouter.post('/posts/:id/unlike', authMiddleware, (req, res) => postsController.unlikePost(req, res))
 
+postRouter.get('/feed', authMiddleware, (req, res) => postsController.loadFeed(req, res))
+
 export { postRouter }

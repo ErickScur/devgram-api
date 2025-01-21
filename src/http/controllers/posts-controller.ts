@@ -221,4 +221,27 @@ export class PostsController {
             post: updatedPost
         })
     }
+
+    async loadFeed(req: Request, res: Response ){
+        const userId = req.user?.id
+        if (!userId) {
+            res.status(401).json({
+                message: 'Unauthorized'
+            })
+            return
+        }
+
+        const page = Number(req.query.page) ?? 1
+        const limit = Number(req.query.limit) ?? 10
+
+        const feed = await this.postsRepository.loadFeed(
+            userId,
+            page,
+            limit
+        )
+
+        res.status(200).json({
+            feed
+        })
+    }
 }

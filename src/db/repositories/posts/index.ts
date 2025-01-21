@@ -41,7 +41,6 @@ export class PostsRepository {
     async delete(postId: number): Promise<void> {
         await this.repository.delete({ id: postId })
     }
-
     async createLike(postId: number, userId: number): Promise<void> {
         await this.likesRepository.save({
             postId,
@@ -63,5 +62,19 @@ export class PostsRepository {
                 userId,
             }
         })
+    }
+
+    async loadFeed(userId: number, page: number, limit: number): Promise<Post[]> {
+        const skip = (page - 1) * limit
+        
+
+        const query = this.repository.createQueryBuilder('post')
+            .innerJoin('follows', 'follow', 'follow.following_id = post.author_id')
+            .where(`follow.follower_id = ${userId}`)
+            .orderBy('post.createdAt' , 'DESC')
+            .skip(skip)
+            .take(limit)        
+
+        return await query.getMany()
     }
 }

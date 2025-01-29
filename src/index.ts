@@ -37,4 +37,7 @@ appDataSource.initialize()
             console.log('Application started')
         })
     })
-    .catch((error) => console.error(`Error connecting to the DB:`, error))
+    .catch((error) => {
+        console.error(`Error connecting to the DB:`, error)
+        
+    })

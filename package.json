@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:create": "npm run typeorm migration:create -- ./src/db/migrations/$npm_config_name",
-    "migration:run": "npm run typeorm migration:run -- -d ./src/db/config/data-source.ts"
+    "migration:run": "tsc && npm run typeorm migration:run -- -d ./dist/db/config/data-source.js"
   },
   "keywords": [],
   "author": "",

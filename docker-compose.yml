@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: devgram-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: devgram
+    ports:
+      - "5432:5432"
+    volumes:
+      - devgram-data:/var/lib/postgresql/data
+    networks:
+      - devgram-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devgram-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - devgram-network
+    command: >
+      sh -c "
+      sleep 5 &&
+      npm run migration:run &&
+      npm start
+      "
+
+volumes:
+  devgram-data:
+
+networks:
+  devgram-network:
